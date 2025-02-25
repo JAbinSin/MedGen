@@ -21,7 +21,7 @@ or
 
 To run the web application use the following command
 
-`flask --app server run --host=0.0.0.0 --debug`
+`flask --app app run --host=0.0.0.0 -p 8000 --debug`
 
 
 ## Requirements
