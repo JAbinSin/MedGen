@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Pill Recognition</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+            min-height: 100vh;
+        }
+        .header {
+            padding: 1.5vw;
+        }
+        .header .nav-link {
+            font-size: 1.5vw;
+            font-weight: 500;
+        }
+        .header .nav-link.active {
+            font-weight: bold;
+        }
+        .header .text-2xl {
+            font-size: 3vw;
+        }
+        .nav-separator {
+            border-left: 2px solid black;
+            height: 24px;
+            margin: 0 16px;
+        }
+        .main-content {
+            padding: 2vw;
+        }
+        .main-content h1 {
+            font-size: 4vw;
+            font-weight: bold;
+        }
+        .main-content p {
+            font-size: 1.5vw;
+        }
+        .image-container img {
+            border-radius: 0.5rem;
+            max-width: 100%;
+            max-height: 60vh;
+            object-fit: contain;
+        }
+        .fixed-size-image {
+            width: 400px;
+            height: 400px;
+            object-fit: contain;
+        }
+        .search-icon {
+            font-size: 2vw;
+        }
+        @media (max-width: 768px) {
+            .header .nav-link {
+                font-size: 3vw;
+            }
+            .header .text-2xl {
+                font-size: 5vw;
+            }
+            .main-content h1 {
+                font-size: 5vw;
+            }
+            .main-content p {
+                font-size: 3vw;
+            }
+            .fixed-size-image {
+                width: 100%;
+                height: auto;
+            }
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .pagination {
+            justify-content: center;
+            padding-top: 20px;
+        }
+        .page-item.active .page-link {
+            background-color: #8ec5fc;
+            border-color: #8ec5fc;
+            color: white;
+        }
+        .page-item .page-link {
+            color: #8ec5fc;
+        }
+        .page-item.disabled .page-link {
+            color: grey;
+        }
+        .page-link {
+            border: 1px solid #8ec5fc;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <div class="text-2xl font-bold">MedG4</div>
+            <div class="nav-separator"></div>
+            <nav class="nav">
+                <a class="nav-link" href="{{ url_for('menu') }}">Menu</a>
+                <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
+                <a class="nav-link" href="{{ url_for('about') }}">About Us</a>
+                <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+            </nav>
+        </div>
+        <div class="text-xl">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </header>
+    
+    <main class="main-content d-flex flex-column flex-md-row align-items-start justify-content-start">
+        <div class="col-md-6">
+            <h2 class="fw-bold">Pill Recognition</h2>
+            <p class="text-muted">
+                Always consult your doctor or other qualified healthcare professional before making any decisions related to your health.
+            </p>
+            <div class="mt-4 d-flex justify-content-center">
+                <img src="{{ url_for('static', filename='predictions/' + pred_filename) }}" alt="Predicted Image" class="img-fluid border fixed-size-image"/>
+            </div>
+            <p class="text-muted mt-2">
+                Call your doctor for medical advice about side effects. You may report side effects to FDA at 1-800-FDA-1088.
+            </p>
+        </div>
+        
+        <div class="col-md-6 mt-4 mt-md-0">
+            {% for info in info_list %}
+                <div class="page{% if loop.index0 == 0 %} active{% endif %}" id="page{{ loop.index0 }}">
+                    <h2 class="display-4 fw-bold">{{ labels[loop.index0] }}</h2>
+                    <h3 class="display-5 fw-bold">Brief Explanation:</h3>
+                    <p class="text-muted">{{ info.brief }}</p>
+                    <h3 class="display-5 fw-bold">Uses:</h3>
+                    <p class="text-muted">{{ info.uses }}</p>
+                    <h3 class="display-5 fw-bold">Side Effects:</h3>
+                    <p class="text-muted">{{ info.side_effects }}</p>
+                </div>
+            {% endfor %}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination">
+                    <li class="page-item" id="prevBtn">
+                        <a class="page-link" href="#" onclick="changePage(-1)">Previous</a>
+                    </li>
+                    {% for i in range(info_list|length) %}
+                    <li class="page-item{% if i == 0 %} active{% endif %}" id="page-btn-{{ i }}">
+                        <a class="page-link" href="#" onclick="goToPage({{ i }})">{{ i + 1 }}</a>
+                    </li>
+                    {% endfor %}
+                    <li class="page-item" id="nextBtn">
+                        <a class="page-link" href="#" onclick="changePage(1)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </main>
+    
+    <script>
+        let currentPage = 0;
+        const totalPages = {{ info_list|length }};
+
+        window.onload = function() {
+            document.getElementById(`page${currentPage}`).classList.add('active');
+            document.getElementById(`page-btn-${currentPage}`).classList.add('active');
+            document.getElementById('prevBtn').classList.add('disabled');
+        };
+
+        function changePage(step) {
+            if ((currentPage + step) >= 0 && (currentPage + step) < totalPages) {
+                document.getElementById(`page${currentPage}`).classList.remove('active');
+                document.getElementById(`page-btn-${currentPage}`).classList.remove('active');
+                currentPage += step;
+                document.getElementById(`page${currentPage}`).classList.add('active');
+                document.getElementById(`page-btn-${currentPage}`).classList.add('active');
+                updateButtons();
+            }
+        }
+
+        function goToPage(page) {
+            if (page >= 0 && page < totalPages) {
+                document.getElementById(`page${currentPage}`).classList.remove('active');
+                document.getElementById(`page-btn-${currentPage}`).classList.remove('active');
+                currentPage = page;
+                document.getElementById(`page${currentPage}`).classList.add('active');
+                document.getElementById(`page-btn-${currentPage}`).classList.add('active');
+                updateButtons();
+            }
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').classList.toggle('disabled', currentPage === 0);
+            document.getElementById('nextBtn').classList.toggle('disabled', currentPage === totalPages - 1);
+        }
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
