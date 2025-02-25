@@ -72,6 +72,10 @@ def upload_file():
 
     time.sleep(2)
 
+    # If no objects are detected, set labels to 'No Pill Detected'
+    if not labels:
+        labels = ['No Pill Detected']
+
     return jsonify({'redirect_url': url_for('result', filename=new_filename, pred_filename=new_filename, labels=','.join(labels))})
 
 @app.route('/progress', methods=['GET'])
@@ -86,7 +90,7 @@ def result():
     labels = request.args.get('labels', '').split(',')
 
     file_url = url_for('static', filename='predictions/' + pred_filename) if pred_filename else ''
-    info_list = [medicine_info.get(label, {}) for label in labels]
+    info_list = [medicine_info.get(label, {'name': label}) for label in labels]
 
     return render_template('result.html', file_url=file_url, labels=labels, info_list=info_list, pred_filename=pred_filename)
 
