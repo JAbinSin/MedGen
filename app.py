@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from ultralytics import YOLO
 import json
 import time
+import cv2  # Make sure to install OpenCV if you haven't already
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -50,6 +51,11 @@ def upload_file():
     
     file.save(file_path)
     progress = 10
+
+    # Verify if the image can be loaded
+    if cv2.imread(file_path) is None:
+        progress = 100
+        return jsonify({'redirect_url': url_for('result', filename=new_filename, pred_filename='', labels='No Pill Detected')})
 
     # Perform object detection and save results
     results = model.predict(file_path, save=True)
