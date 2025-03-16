@@ -1,0 +1,65 @@
+{
+    "team_members": [
+        {
+            "name": "Ayn Margareth Cruz",
+            "role": "Lead Researcher",
+            "position": "STEM Student",
+            "email": "aynmargaret_cruz@sct.edu.ph",
+            "facebook": "https://www.facebook.com/AynMargaretReyesCruz",
+            "profile_image": "static/profiles/ayn.png"
+        },
+        {
+            "name": "Daniele Anne Cantos",
+            "role": "Researcher",
+            "position": "STEM Student",
+            "email": "danieleanne_cantos@sct.edu.ph",
+            "facebook": "https://www.facebook.com/share/19MdbUsUXL/?mibextid=wwXIfr",
+            "profile_image": "static/profiles/daniele.jpg"
+        },
+        {
+            "name": "John Andrei Cruz ",
+            "role": "Researcher",
+            "position": "STEM Student",
+            "email": "johnandrei_cruz@sct.edu.ph",
+            "facebook": "https://www.facebook.com/share/18b4A4L47k/?mibextid=wwXIfr",
+            "profile_image": "static/profiles/andrei.jpg"
+        },
+        {
+            "name": "Mark Lawrence Floro ",
+            "role": "Researcher",
+            "position": "STEM Student",
+            "email": "marklawrence_floro@sct.edu.ph",
+            "facebook": "https://www.facebook.com/share/1ECrMHqdjh/?mibextid=wwXIfr",
+            "profile_image": "static/profiles/mark.jpg"
+        },
+        {
+            "name": "Angelina Oracion",
+            "role": "Researcher",
+            "position": "STEM Student",
+            "email": "angelina_oracion@sct.edu.ph",
+            "facebook": "https://www.facebook.com/share/1GdoHVXxQC/?mibextid=wwXIfr",
+            "profile_image": "static/profiles/angelina.jpg"
+        },
+        {
+            "name": "Scott Policarpio",
+            "role": "Researcher",
+            "position": "STEM Student",
+            "email": "darwedscott_policarpio@sct.edu.ph",
+            "facebook": "https://www.facebook.com/share/15vARtxq6D/?mibextid=wwXIfr",
+            "profile_image": "static/profiles/scott.jpg"
+        },
+        {
+            "name": "Ian Laurequez",
+            "role": "Researcher",
+            "position": "STEM Student",
+            "email": "iankosi_surwal@sct.edu.ph",
+            "facebook": "https://www.facebook.com/share/1Y5Y8xEmj7/?mibextid=wwXIfr",
+            "profile_image": "static/profiles/ian.jpg"
+        }
+    ],
+    "social_links": {
+        "email": "aynmargaret_cruz@sct.edu.ph",
+        "facebook": "https://www.facebook.com/officialsienans",
+        "github": "https://github.com/JAbinSin/MedGen"
+    }
+}

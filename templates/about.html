@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>About Us - MedG4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(-45deg,
+                rgba(147, 51, 234, 0.1),
+                rgba(59, 130, 246, 0.1),
+                rgba(199, 210, 254, 0.2),
+                rgba(243, 232, 255, 0.1));
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            margin: 1rem auto;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            margin-top: 120px;
+            padding-top: 1rem;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem 1rem;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #9333ea, #3b82f6);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .team-member {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .nav {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .header {
+            background: linear-gradient(to right, rgba(147, 51, 234, 0.1), rgba(59, 130, 246, 0.1));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 76px;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+                position: fixed;
+                visibility: hidden;
+                opacity: 0;
+                top: 76px;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+                z-index: 99;
+                max-width: none;
+                transform: translateY(-20px);
+                transition: transform 0.3s ease, opacity 0.2s ease, visibility 0s linear 0.3s;
+            }
+            
+            .nav.show {
+                display: flex;
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0);
+                transition: transform 0.3s ease, opacity 0.2s ease;
+            }
+            
+            .nav-link {
+                display: block;
+                padding: 0.5rem 0;
+                width: 100%;
+            }
+
+            .main-content {
+                position: relative;
+                z-index: 1;
+                transition: transform 0.3s ease;
+                margin-top: 110px;
+                padding-top: 0.5rem;
+            }
+            
+            .main-content.nav-open {
+                transform: translateY(200px);
+            }
+
+            .mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-center: center;
+                cursor: pointer;
+                font-size: 1.5rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                color: #6B46C1;
+                z-index: 101;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="header flex justify-between items-center p-6 shadow-md">
+        <div class="flex items-center">
+            <div class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text flex items-center">
+                <i class="fas fa-pills mr-2"></i>
+                MedG4
+            </div>
+            <div class="border-l-2 border-purple-300 h-6 mx-4"></div>
+        </div>
+        <nav class="nav flex justify-center items-center">
+            <a class="nav-link text-xl font-medium" href="{{ url_for('menu') }}">Menu</a>
+            <a class="nav-link text-xl font-medium" href="{{ url_for('home') }}">Home</a>
+            <a class="nav-link text-xl font-bold" href="{{ url_for('about') }}">About&#8209;Us</a>
+            <a class="nav-link text-xl font-medium" href="{{ url_for('contact') }}">Contact</a>
+        </nav>
+        <div class="mobile-menu md:hidden">
+            <i class="fas fa-bars" id="menuToggle"></i>
+        </div>
+    </header>
+
+    <main class="main-content flex flex-col p-8 w-full max-w-6xl mx-auto mt-[100px] my-8">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-6">
+                About Our Project
+            </h1>
+            <div class="text-lg text-gray-700 max-w-4xl mx-auto space-y-6">
+                <p class="leading-relaxed">
+                    We are Grade 12 students from <span class="font-semibold">Siena College of Taytay, Taytay Rizal</span> in the Science, Technology, Engineering and Mathematics Strand. As part of our Inquiries, Investigation and Immersion/Capstone Project, we are conducting a groundbreaking study titled:
+                </p>
+                <p class="text-2xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">
+                    "Visual Pill Identification Website: Enhancing Medication Adherence for Cognitive Impairment"
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white/80 backdrop-blur-md rounded-xl p-8 shadow-lg">
+                <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
+                    Our Mission
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    To develop a Visual Pill Identification Platform that improves medication adherence among patients with cognitive impairments, ensuring correct medication administration and enhancing patient safety.
+                </p>
+            </div>
+            <div class="bg-white/80 backdrop-blur-md rounded-xl p-8 shadow-lg">
+                <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
+                    Project Impact
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Our platform assists patients, nurses, and healthcare workers by:
+                </p>
+                <ul class="list-disc list-inside mt-2 text-gray-700 space-y-2">
+                    <li>Ensuring accurate medication identification</li>
+                    <li>Improving patient safety</li>
+                    <li>Reducing healthcare burdens</li>
+                    <li>Supporting cognitive impairment patients</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-md rounded-xl p-8 shadow-lg text-center">
+            <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
+                Academic Institution
+            </h2>
+            <p class="text-gray-700 mb-4">
+                <span class="font-semibold">Siena College of Taytay</span><br>
+                Science, Technology, Engineering and Mathematics Strand<br>
+                Taytay, Rizal
+            </p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="mailto:info@sct.edu.ph" class="contact-icon flex flex-col items-center">
+                    <i class="fas fa-envelope text-2xl text-gray-600"></i>
+                    <span class="text-sm mt-1">Email</span>
+                </a>
+                <a href="https://www.facebook.com/SienaCollegeofTaytayOfficial" target="_blank" class="contact-icon flex flex-col items-center">
+                    <i class="fab fa-facebook text-2xl text-gray-600"></i>
+                    <span class="text-sm mt-1">Facebook</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gradient-to-r from-purple-800 to-blue-800 text-white text-center py-4 mt-auto shadow-inner">
+        <p class="text-sm mb-1">© 2025 MedG4. All rights reserved.</p>
+        <p class="text-xs text-gray-300">Medicine information sourced from the <a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">National Institutes of Health</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.querySelector('.nav').classList.toggle('show');
+            document.querySelector('.main-content').classList.toggle('nav-open');
+            this.classList.toggle('fa-bars');
+            this.classList.toggle('fa-times');
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.nav') && !e.target.closest('.mobile-menu')) {
+                document.querySelector('.nav').classList.remove('show');
+                document.querySelector('.main-content').classList.remove('nav-open');
+                document.querySelector('#menuToggle').classList.add('fa-bars');
+                document.querySelector('#menuToggle').classList.remove('fa-times');
+            }
+        });
+    </script>
+</body>
+</html>

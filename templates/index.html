@@ -43,20 +43,37 @@
             border-radius: 1rem;
             margin: 1rem auto;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            margin-top: 120px;
+            padding-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-top: 110px;
+                padding-top: 0.5rem;
+            }
         }
 
         .header {
             background: linear-gradient(to right, rgba(147, 51, 234, 0.1), rgba(59, 130, 246, 0.1));
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            z-index: 100;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 76px;
+            z-index: 1000;
         }
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
             text-align: center;
-            width: 100%;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem 1rem;
         }
         .nav-link::after {
             content: '';
@@ -84,72 +101,67 @@
         }
         .zigzag-container {
             position: relative;
-            width: 100%;
-            max-width: 300px;
-            aspect-ratio: 3/4;
-            margin: 0 auto;
+            width: 35%;
+            height: 400px;
         }
         .swap-img {
             position: absolute;
-            width: 40%;
-            max-width: 120px;
-            height: auto;
-            aspect-ratio: 120/170;
-            animation-duration: 6s;
-            animation-iteration-count: infinite;
-            animation-timing-function: ease-in-out;
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: all 0.6s ease-in-out;
         }
         .swap1 {
             top: 0;
-            left: 20%;
-            transform: translateX(-20%);
-            animation-name: swap1;
+            z-index: 2;
         }
         .swap2 {
-            top: 45%;
-            left: 50%;
-            transform: translateX(-50%);
-            animation-name: swap2;
+            top: 200px;
+            z-index: 1;
         }
         @keyframes swap1 {
-            0%, 40% {
-                top: 0;
-                left: 20%;
-            }
-            50%, 90% {
-                top: 45%;
-                left: 50%;
-            }
-            100% {
-                top: 0;
-                left: 20%;
-            }
+            0%, 45% { transform: translateY(0); }
+            50%, 95% { transform: translateY(200px); }
+            100% { transform: translateY(0); }
         }
         @keyframes swap2 {
-            0%, 40% {
-                top: 45%;
-                left: 50%;
-            }
-            50%, 90% {
-                top: 0;
-                left: 20%;
-            }
-            100% {
-                top: 45%;
-                left: 50%;
-            }
+            0%, 45% { transform: translateY(0); }
+            50%, 95% { transform: translateY(-200px); }
+            100% { transform: translateY(0); }
+        }
+        .swap1 {
+            animation: swap1 6s infinite;
+        }
+        .swap2 {
+            animation: swap2 6s infinite;
         }
         @media (max-width: 768px) {
             .image-container {
                 flex-direction: column;
                 align-items: center;
+                padding: 0 1rem;
             }
+            
+            .main-image {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 2rem;
+            }
+
             .zigzag-container {
-                margin-top: 2rem;
+                width: 200px;
+                height: 400px;
+                margin: 0 auto;
             }
         }
         .nav {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
             transition: all 0.3s ease;
+            z-index: 999;
         }
 
         .mobile-menu {
@@ -213,6 +225,43 @@
                 z-index: 101;
             }
         }
+        .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: start;
+            gap: 2rem;
+        }
+
+        .main-image-container {
+            width: 65%;
+            border: 3px solid transparent;
+            background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%) border-box;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .main-image-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .main-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+        }
+
+        .swap-img {
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%) border-box;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -224,23 +273,18 @@
             </div>
             <div class="border-l-2 border-purple-300 h-6 mx-4"></div>
         </div>
-        <nav class="nav flex justify-center space-x-8">
+        <nav class="nav flex justify-center items-center">
             <a class="nav-link text-xl font-medium" href="{{ url_for('menu') }}">Menu</a>
             <a class="nav-link text-xl font-bold" href="{{ url_for('home') }}">Home</a>
             <a class="nav-link text-xl font-medium" href="{{ url_for('about') }}">About&#8209;Us</a>
             <a class="nav-link text-xl font-medium" href="{{ url_for('contact') }}">Contact</a>
         </nav>
-        <div class="flex items-center gap-4">
-            <div class="text-2xl hidden md:block">
-                <i class="fas fa-search search-icon"></i>
-            </div>
-            <div class="mobile-menu md:hidden">
-                <i class="fas fa-bars" id="menuToggle"></i>
-            </div>
+        <div class="mobile-menu md:hidden">
+            <i class="fas fa-bars" id="menuToggle"></i>
         </div>
     </header>
-    <main class="main-content flex flex-col md:flex-row items-center justify-center p-4 md:p-8 w-full max-w-6xl mx-auto my-8">
-        <div class="text-left mb-8 md:mb-0 md:w-1/2 px-4 flex flex-col justify-center">
+    <main class="main-content flex flex-col md:flex-row items-center justify-center p-4 md:p-8 w-full max-w-6xl mx-auto mt-[100px] mb-8">
+        <div class="text-left mb-8 md:mb-0 md:w-1/2 px-4 flex flex-col justify-center py-8">
             <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text">
                 Pill Recognition
             </h1>
@@ -257,28 +301,31 @@
                 </form>
             </div>
         </div>
-        <div class="image-container flex flex-col md:flex-row items-center justify-center md:items-start mt-8 md:mt-0 md:ml-8 md:w-1/2">
-            <img
-                alt="A detailed image of a DNA strand with a blue background"
-                class="mb-8 md:mb-0 w-full max-w-[300px] object-cover aspect-[3/4] rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                src="https://images.nature.com/lw1200/magazine-assets/d41586-024-03443-w/d41586-024-03443-w_27705720.jpg"
-            />
-            <div class="zigzag-container md:ml-6">
+        <div class="image-container">
+            <div class="main-image-container">
+                <img
+                    alt="A detailed image of a DNA strand with a blue background"
+                    class="main-image"
+                    src="https://images.nature.com/lw1200/magazine-assets/d41586-024-03443-w/d41586-024-03443-w_27705720.jpg"
+                />
+            </div>
+            <div class="zigzag-container">
                 <img
                     alt="A test tube with red liquid"
-                    class="swap-img swap1 rounded-xl shadow-lg"
+                    class="swap-img swap1"
                     src="https://storage.googleapis.com/a1aa/image/D28rggWzu80X79t3q1K7Mad2RlwBHYI3MqoVVcSr_EQ.jpg"
                 />
                 <img
                     alt="Various colorful pills"
-                    class="swap-img swap2 rounded-xl shadow-lg"
+                    class="swap-img swap2"
                     src="https://storage.googleapis.com/a1aa/image/WsAhx1Tu344rOZ2li-3HBaTFtWP4KKPC5Xde-XbuEEQ.jpg"
                 />
             </div>
         </div>
     </main>
     <footer class="bg-gradient-to-r from-purple-800 to-blue-800 text-white text-center py-4 mt-auto shadow-inner">
-        <p class="text-sm">© 2023 MedG4. All rights reserved.</p>
+        <p class="text-sm mb-1">© 2025 MedG4. All rights reserved.</p>
+        <p class="text-xs text-gray-300">Medicine information sourced from the <a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">National Institutes of Health</a></p>
     </footer>
     <!-- Loading Popup using Tailwind CSS -->
     <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" id="loadingPopup">
@@ -305,8 +352,25 @@
         function uploadFile() {
             const fileInput = document.querySelector('input[type="file"]');
             if (fileInput.files.length === 0) {
-                return; // No file selected, exit the function
+                return;
             }
+
+            // Validate file size
+            const file = fileInput.files[0];
+            if (file.size > 16 * 1024 * 1024) { // 16MB
+                alert('File is too large. Maximum size is 16MB.');
+                fileInput.value = '';
+                return;
+            }
+
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                alert('Invalid file type. Please upload a JPG, PNG or GIF image.');
+                fileInput.value = '';
+                return;
+            }
+
             const formData = new FormData(document.getElementById("uploadForm"));
             $.ajax({
                 url: "/upload",
@@ -337,12 +401,24 @@
                     }, 500);
                 },
                 success: function (response) {
+                    if (response.error) {
+                        alert(response.error);
+                        document.getElementById("loadingPopup").classList.add("hidden");
+                        fileInput.value = '';
+                        return;
+                    }
                     document.getElementById("loadingPopup").classList.add("hidden");
                     window.location.href = response.redirect_url;
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    let errorMsg = 'Error uploading file.';
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
+                        errorMsg = jqXHR.responseJSON.error;
+                    }
+                    alert(errorMsg);
                     console.error("Error uploading file:", textStatus, errorThrown);
                     document.getElementById("loadingPopup").classList.add("hidden");
+                    fileInput.value = '';
                 }
             });
         }

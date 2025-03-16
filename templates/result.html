@@ -37,11 +37,26 @@
             border-radius: 1rem;
             margin: 1rem auto;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            margin-top: 120px;
+            padding-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-top: 110px;
+                padding-top: 0.5rem;
+            }
         }
 
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem 1rem;
         }
         
         .nav-link::after {
@@ -116,6 +131,82 @@
                 gap: 0.5rem;
             }
         }
+
+        .nav {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+                position: absolute;
+                visibility: hidden;
+                opacity: 0;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 1rem;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+                z-index: 99;
+                transform: translateY(-1rem);
+                transition: all 0.3s ease;
+                width: 100%;
+            }
+            
+            .nav.show {
+                display: flex;
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .main-content {
+                position: relative;
+                z-index: 1;
+                transition: transform 0.3s ease;
+            }
+            
+            .main-content.nav-open {
+                transform: translateY(200px);
+            }
+
+            .mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 1.5rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                color: #6B46C1;
+                z-index: 101;
+            }
+        }
+
+        .header {
+            background: linear-gradient(to right, rgba(147, 51, 234, 0.1), rgba(59, 130, 246, 0.1));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 76px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -127,20 +218,18 @@
             </div>
             <div class="border-l-2 border-purple-300 h-6 mx-4"></div>
         </div>
-        <nav class="nav flex justify-center space-x-8">
+        <nav class="nav flex justify-center items-center">
             <a class="nav-link text-xl font-medium" href="{{ url_for('menu') }}">Menu</a>
-            <a class="nav-link text-xl font-bold" href="{{ url_for('home') }}">Home</a>
+            <a class="nav-link text-xl font-medium" href="{{ url_for('home') }}">Home</a>
             <a class="nav-link text-xl font-medium" href="{{ url_for('about') }}">About&#8209;Us</a>
             <a class="nav-link text-xl font-medium" href="{{ url_for('contact') }}">Contact</a>
         </nav>
-        <div class="flex items-center gap-4">
-            <div class="text-2xl">
-                <i class="fas fa-search search-icon"></i>
-            </div>
+        <div class="mobile-menu md:hidden">
+            <i class="fas fa-bars" id="menuToggle"></i>
         </div>
     </header>
     
-    <main class="main-content flex flex-col md:flex-row p-8 w-full max-w-6xl mx-auto my-8">
+    <main class="main-content flex flex-col md:flex-row p-8 w-full max-w-6xl mx-auto mt-[100px] my-8">
         <div class="col-md-6 pr-8">
             <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
                 Pill Recognition Results
@@ -219,7 +308,8 @@
     </main>
 
     <footer class="bg-gradient-to-r from-purple-800 to-blue-800 text-white text-center py-4 mt-auto shadow-inner">
-        <p class="text-sm">© 2023 MedG4. All rights reserved.</p>
+        <p class="text-sm mb-1">© 2025 MedG4. All rights reserved.</p>
+        <p class="text-xs text-gray-300">Medicine information sourced from the <a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">National Institutes of Health</a></p>
     </footer>
 
     <script>
@@ -265,6 +355,22 @@
                 document.getElementById('nextBtn').classList.add('disabled');
             }
         }
+
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.querySelector('.nav').classList.toggle('show');
+            document.querySelector('.main-content').classList.toggle('nav-open');
+            this.classList.toggle('fa-bars');
+            this.classList.toggle('fa-times');
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.nav') && !e.target.closest('.mobile-menu')) {
+                document.querySelector('.nav').classList.remove('show');
+                document.querySelector('.main-content').classList.remove('nav-open');
+                document.querySelector('#menuToggle').classList.add('fa-bars');
+                document.querySelector('#menuToggle').classList.remove('fa-times');
+            }
+        });
     </script>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

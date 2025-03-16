@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Medicine Menu - MedG4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(-45deg,
+                rgba(147, 51, 234, 0.1),
+                rgba(59, 130, 246, 0.1),
+                rgba(199, 210, 254, 0.2),
+                rgba(243, 232, 255, 0.1));
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        .header {
+            background: linear-gradient(to right, rgba(147, 51, 234, 0.1), rgba(59, 130, 246, 0.1));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 76px;  /* Fixed height */
+            z-index: 1000;
+        }
+
+        .nav {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem 1rem;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #9333ea, #3b82f6);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .medicine-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .medicine-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .medicine-card .image-container {
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%) border-box;
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .medicine-card:hover .image-container {
+            border-width: 3px;
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+
+        .modal {
+            position: fixed;
+            top: 76px; /* Match header height */
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1001;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 1rem;
+            overflow-y: auto;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            width: 90%;
+            max-width: 900px;
+            margin: 1rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .modal {
+                top: 0;
+                padding-top: 76px; /* Add padding equal to header height */
+            }
+            
+            .modal-content {
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+                min-height: calc(100vh - 76px);
+                max-height: calc(100vh - 76px);
+                overflow-y: auto;
+            }
+
+            .modal .close-button {
+                top: calc(76px + 1rem); /* Header height + padding */
+                right: 1rem;
+                position: fixed;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1002; /* Higher than modal */
+            }
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+                position: absolute;
+                visibility: hidden;
+                opacity: 0;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 1rem;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+                z-index: 99;
+                transform: translateY(-1rem);
+                transition: all 0.3s ease;
+                width: 100%;
+            }
+            
+            .nav.show {
+                display: flex;
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .nav-link {
+                display: block;
+                padding: 0.5rem 0;
+                width: 100%;
+            }
+
+            .main-content {
+                position: relative;
+                z-index: 1;
+                transition: transform 0.3s ease;
+            }
+            
+            .main-content.nav-open {
+                transform: translateY(200px);
+            }
+
+            .mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 1.5rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                color: #6B46C1;
+                z-index: 1001;
+            }
+        }
+
+        .play-button {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .play-button.playing {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .main-content {
+            margin-top: 120px; /* Increased from 100px to 120px */
+            padding-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-top: 110px; /* Increased from 90px to 110px */
+                padding-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="header flex justify-between items-center p-6 shadow-md">
+        <div class="flex items-center">
+            <div class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text flex items-center">
+                <i class="fas fa-pills mr-2"></i>
+                MedG4
+            </div>
+            <div class="border-l-2 border-purple-300 h-6 mx-4"></div>
+        </div>
+        <nav class="nav flex justify-center items-center">
+            <a class="nav-link text-xl font-bold" href="{{ url_for('menu') }}">Menu</a>
+            <a class="nav-link text-xl font-medium" href="{{ url_for('home') }}">Home</a>
+            <a class="nav-link text-xl font-medium" href="{{ url_for('about') }}">About&#8209;Us</a>
+            <a class="nav-link text-xl font-medium" href="{{ url_for('contact') }}">Contact</a>
+        </nav>
+        <div class="mobile-menu md:hidden">
+            <i class="fas fa-bars" id="menuToggle"></i>
+        </div>
+    </header>
+
+    <main class="main-content flex flex-col p-8 w-full max-w-6xl mx-auto my-8">
+        <div class="text-center mb-12 py-8">
+            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-6">
+                Medicine Information
+            </h1>
+            <p class="text-lg text-gray-700">
+                Click on any medicine to learn more about it.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {% for name, info in medicine_info.items()|sort(attribute='1.name') %}
+            <div class="medicine-card bg-white/80 backdrop-blur-md rounded-xl p-6 shadow-lg {% if loop.last and loop.index % 3 == 1 %}lg:col-start-2{% endif %}" 
+                 onclick="openModal('modal-{{ loop.index }}')">
+                <div class="image-container w-full aspect-square mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
+                    {% if info.image %}
+                        <img src="{{ url_for('static', filename=info.image) }}" 
+                             alt="{{ info.name }}"
+                             class="w-full h-full object-cover"
+                             loading="lazy">
+                    {% else %}
+                        <i class="fas fa-pills text-6xl text-purple-500"></i>
+                    {% endif %}
+                </div>
+                <h2 class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text text-center">
+                    {{ info.name }}
+                </h2>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Medicine Info Modals -->
+        {% for name, info in medicine_info.items()|sort(attribute='1.name') %}
+        <div id="modal-{{ loop.index }}" class="modal fixed inset-0 z-[9999] flex items-start sm:items-center justify-center bg-black bg-opacity-50">
+            <div class="modal-content bg-white/95 backdrop-blur-md rounded-xl p-8 w-full sm:w-11/12 max-w-4xl mx-auto relative">
+                <button onclick="closeModal('modal-{{ loop.index }}')" class="close-button absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-50">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+                
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/3 flex items-center">
+                        <div class="medicine-image w-full aspect-square rounded-lg overflow-hidden bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center border-4 border-gradient-purple-blue">
+                            {% if info.image %}
+                                <img src="{{ url_for('static', filename=info.image) }}" 
+                                     alt="{{ info.name }}"
+                                     class="w-full h-full object-cover">
+                            {% else %}
+                                <i class="fas fa-pills text-8xl text-purple-500"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="w-full md:w-2/3 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text">
+                                {{ info.name }}
+                            </h2>
+                            <button onclick="playAudio('{{ info.name }}', '{{ info.audio }}')" class="play-button" id="playButton-{{ info.name }}">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-bold mb-2 bg-gradient-to-r from-purple-500 to-blue-500 inline-block px-4 py-1 rounded-lg text-white shadow-sm">
+                                Brief Explanation
+                            </h3>
+                            <p class="text-gray-700 mt-2 leading-relaxed">{{ info.brief }}</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-bold mb-2 bg-gradient-to-r from-purple-500 to-blue-500 inline-block px-4 py-1 rounded-lg text-white shadow-sm">
+                                Uses
+                            </h3>
+                            <p class="text-gray-700 mt-2 leading-relaxed">{{ info.uses }}</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-bold mb-2 bg-gradient-to-r from-purple-500 to-blue-500 inline-block px-4 py-1 rounded-lg text-white shadow-sm">
+                                Side Effects
+                            </h3>
+                            <p class="text-gray-700 mt-2 leading-relaxed">{{ info.side_effects }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </main>
+
+    <footer class="bg-gradient-to-r from-purple-800 to-blue-800 text-white text-center py-4 mt-auto shadow-inner">
+        <p class="text-sm mb-1">© 2025 MedG4. All rights reserved.</p>
+        <p class="text-xs text-gray-300">Medicine information sourced from the <a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">National Institutes of Health</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.querySelector('.nav').classList.toggle('show');
+            document.querySelector('.main-content').classList.toggle('nav-open');
+            this.classList.toggle('fa-bars');
+            this.classList.toggle('fa-times');
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.nav') && !e.target.closest('.mobile-menu')) {
+                document.querySelector('.nav').classList.remove('show');
+                document.querySelector('.main-content').classList.remove('nav-open');
+                document.querySelector('#menuToggle').classList.add('fa-bars');
+                document.querySelector('#menuToggle').classList.remove('fa-times');
+            }
+        });
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+                document.querySelectorAll('.play-button').forEach(btn => {
+                    btn.classList.remove('playing');
+                    btn.querySelector('i').className = 'fas fa-volume-up';
+                });
+            }
+            document.getElementById(modalId).classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                closeModal(e.target.id);
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    closeModal(openModal.id);
+                }
+            }
+        });
+
+        let currentAudio = null;
+
+        function playAudio(medicineName, audioFile) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                document.querySelectorAll('.play-button').forEach(btn => {
+                    btn.classList.remove('playing');
+                    btn.querySelector('i').className = 'fas fa-volume-up';
+                });
+            }
+
+            const button = document.getElementById(`playButton-${medicineName}`);
+            const audioUrl = `{{ url_for('static', filename='audio/') }}${audioFile}`;
+            
+            const audio = new Audio(audioUrl);
+            currentAudio = audio;
+
+            audio.onplay = () => {
+                button.classList.add('playing');
+                button.querySelector('i').className = 'fas fa-pause';
+            };
+
+            audio.onpause = () => {
+                button.classList.remove('playing');
+                button.querySelector('i').className = 'fas fa-volume-up';
+            };
+
+            audio.onended = () => {
+                button.classList.remove('playing');
+                button.querySelector('i').className = 'fas fa-volume-up';
+                currentAudio = null;
+            };
+
+            audio.play().catch(error => {
+                console.error('Error playing audio:', error);
+                button.classList.remove('playing');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,62 +1,82 @@
 {
     "paracetamol": {
         "name": "Paracetamol",
+        "image": "pills/paracetamol.jpg",
         "brief": "Paracetamol, the same drug as acetaminophen, works by blocking pain-inducing chemical messengers in the brain and regulating body temperature. It inhibits the production of prostaglandins, which are produced by the body to deal with illness and injury. Paracetamol also acts on serotonergic, opioid, nitric oxide, and cannabinoid pathways.",
         "uses": "Headache, Tension headache, Migraine, Backache, Rheumatic and muscle pain, Mild arthritis/Osteoarthritis, Toothache, Period pain (Dysmenorrhea), Cold, Flu, Sore throat, Sinus Pain, Post-operative pain, and Fever (Pyrexia).",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Shortness of breath/wheezing, Mouth Ulcer, Bruising, Bleeding, Infections, Liver problems, Nausea, Weight loss, Loss of appetite, Yellowing of the Eyes & Skin, Redness/Soreness in or around the rectum."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Shortness of breath/wheezing, Mouth Ulcer, Bruising, Bleeding, Infections, Liver problems, Nausea, Weight loss, Loss of appetite, Yellowing of the Eyes & Skin, Redness/Soreness in or around the rectum.",
+        "audio": "Paracetamol.mp3"
     },
     "ibuprofen": {
         "name": "Ibuprofen",
+        "image": "pills/ibuprofen.jpg",
         "brief": "Ibuprofen is a nonsteroidal anti-inflammatory drug (NSAID). It works by reducing hormones that cause inflammation and pain in the body.",
         "uses": "Headache, Toothache, Back pain, Joint pain, Arthritis, Menstrual cramps, and Minor injury.",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Shortness of breath/wheezing, Bruising, Stomach Bleeding, Infections, Liver problems, Kidney problems, Nausea, Vomiting, Gas, Headache, Anemia."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Shortness of breath/wheezing, Bruising, Stomach Bleeding, Infections, Liver problems, Kidney problems, Nausea, Vomiting, Gas, Headache, Anemia.",
+        "audio": "Ibuprofen.mp3"
     },
     "metformin": {
         "name": "Metformin",
+        "image": "pills/metformin.avif",
         "brief": "Metformin, an FDA-approved antidiabetic, manages high blood sugar levels in type 2 diabetes patients by reducing glucose absorption, lowering liver glucose production, and improving insulin sensitivity. It prevents complications and reduces heart attack risk.",
         "uses": "Reduces Glucose production, Improves Insulin sensitivity, Lowers the risk of Heart attack and Strokes.",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Lactic acidosis, Muscle pain, Low body temperature, Breathing Problems, Fatigue, Stomach pain, Vomiting, Slow/Irregular heart rate, Low blood sugar, Nausea, Diarrhea."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Lactic acidosis, Muscle pain, Low body temperature, Breathing Problems, Fatigue, Stomach pain, Vomiting, Slow/Irregular heart rate, Low blood sugar, Nausea, Diarrhea.",
+        "audio": "Metformin.mp3"
     },
     "dextromethorphan": {
         "name": "Dextromethorphan",
+        "image": "pills/dextromethorphan.jpg",
         "brief": "Dextromethorphan is a cough suppressant that affects brain signals triggering cough reflex, used to treat coughs, but not smoking, asthma, or emphysema-related coughs.",
         "uses": "Temporarily relieve cough, Common cold, Flu, Bronchial irritations.",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Breathing problems, Severe dizziness, Anxiety, Restless feeling/Nervousness, Seizures, Convulsions, Joint pain, Confusion, Hallucinations."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Breathing problems, Severe dizziness, Anxiety, Restless feeling/Nervousness, Seizures, Convulsions, Joint pain, Confusion, Hallucinations.",
+        "audio": "Dextromethorphan.mp3"
     },
     "pseudoephedrine": {
         "name": "Pseudoephedrine",
+        "image": "pills/pseudoephedrine.jpg",
         "brief": "Pseudoephedrine is a decongestant used to treat nasal and sinus congestion, causing dilated blood vessels in the eustachian tubes, and may also be used for other purposes.",
         "uses": "Stuffy nose, Nasal and Sinus congestion, Eustachian.",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Difficulty breathing, Uneven heartbeat, Severe dizziness, Anxiety, Bruising, Bleeding, Fatigue, Fever, Chills, Body aches, Flu, High blood pressure, Severe headache, Blurred vision, Ringing in your ears, Confusion, Chest pain, Seizure."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Difficulty breathing, Uneven heartbeat, Severe dizziness, Anxiety, Bruising, Bleeding, Fatigue, Fever, Chills, Body aches, Flu, High blood pressure, Severe headache, Blurred vision, Ringing in your ears, Confusion, Chest pain, Seizure.",
+        "audio": "Pseudoephedrine.mp3"
     },
     "cetirizine": {
         "name": "Cetirizine",
+        "image": "pills/cetirizine.jpg",
         "brief": "Cetirizine is a second-generation antihistamine used to reduce histamine in the body, treat allergic reactions, and minimize symptoms of chronic urticaria, hives, and atopic dermatitis.",
         "uses": "Cold, Allergies: Sneezing, Itching, Watery eyes, Runny nose, Minimizes or Eliminates the symptoms of Perennial Allergic rhinitis, Seasonal allergic rhinitis, Chronic idiopathic urticaria, Allergic asthma, Physical urticaria, and Atopic dermatitis.",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Difficulty breathing, Uneven heartbeat, Weakness, Tremors, Insomnia, Hyperactivity, Severe restless feeling, Confusion, Problem with Vision, Urinary problems, Dry mouth, Sore throat, Cough, Nausea, Constipation, Headache."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Difficulty breathing, Uneven heartbeat, Weakness, Tremors, Insomnia, Hyperactivity, Severe restless feeling, Confusion, Problem with Vision, Urinary problems, Dry mouth, Sore throat, Cough, Nausea, Constipation, Headache.",
+        "audio": "Cetirizine.mp3"
     },
     "antihistamine": {
         "name": "Antihistamine",
+        "image": "pills/antihistamine.jpg",
         "brief": "Antihistamine is cold symptoms and allergic reactions like hay fever are treated with substances that block histamine in the body.",
         "uses": "Allergies: Fever, Itching, Sneezing, Runny nose, Watery eyes, Coughs, Colds.",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Difficulty breathing, Xerostomia, Dizziness, Constipation, Hypertension, Tachycardia, Blurred vision, Drowsiness, Nausea, Fatigue, Confusion, Urinary problem, Abdominal pain, Headache, Increased chest congestion, Dry eyes."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Difficulty breathing, Xerostomia, Dizziness, Constipation, Hypertension, Tachycardia, Blurred vision, Drowsiness, Nausea, Fatigue, Confusion, Urinary problem, Abdominal pain, Headache, Increased chest congestion, Dry eyes.",
+        "audio": "Antihistamine.mp3"
     },
-	"vitamin_d": {
+    "vitamin_d": {
         "name": "Vitamin D",
+        "image": "pills/vitamin_d.webp",
         "brief": "Vitamin D is a nutrient essential for the body's health, found in fatty fish, egg yolks, dairy products, and sunlight-exposed skin. It aids in the body's utilization of calcium and phosphorus.",
         "uses": "Cancer, Type 2 diabetes, Depression, Osteoporosis, Bone structure, High blood pressure, Weight loss.",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Difficulty breathing, NAusea, Hypercalcemia, Tiredness, Kidney disease, Confusion, Slow growth (in children), COnstipation, Bone pain, Irregular heartbeat, Dehydration, Muscle weakness, Disorientation, Weakness."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Difficulty breathing, NAusea, Hypercalcemia, Tiredness, Kidney disease, Confusion, Slow growth (in children), COnstipation, Bone pain, Irregular heartbeat, Dehydration, Muscle weakness, Disorientation, Weakness.",
+        "audio": "Vitamin_D.mp3"
     },
-	"amoxicillin": {
+    "amoxicillin": {
         "name": "Amoxicillin",
+        "image": "pills/amoxicillin.jpg",
         "brief": "Amoxicillin is a medication used to treat various body parts, including the ear, lungs, nose, sinus, skin, and urinary tract, and is often combined with other medications for H. pylori infections.",
         "uses": "Bacterial infection, Tonsillitis, Bronchitis, Sinusitis, Pneumonia, Infection of the Ear, Nose, Throat, Skin or Urinary tract.",
-        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Fever, Sore throat, Burning eyes, Severe stomach pain, Diarrhea."
+        "side_effects": "Allergies: Skin rashes/Itching/Peeling/Hives, Swelling of the Throat/Tongue/Face, Fever, Sore throat, Burning eyes, Severe stomach pain, Diarrhea.",
+        "audio": "Amoxicillin.mp3"
     },
-	"levothyroxine": {
+    "levothyroxine": {
         "name": "Levothyroxine",
+        "image": "pills/levothyroxine.jpg",
         "brief": "Levothyroxine is a prescription medication for hypothyroidism, a condition where the thyroid gland produces thyroid hormones that regulate energy levels and growth.",
         "uses": "Hypothyroidism, Thyroid cancer.",
-        "side_effects": "Allergies: Hives, Difficulty breathing, Swelling of Face, Lips, Tongue or Throat, Sudden pain, Trouble moving, Irregular heartbeat, Chest pain, Wheezing, Fever, Swollen glands, Itching, Joint pain Nausea, Vomiting, Diarrhea, High blood sugar, Dry mouth, Hair loss, Insomnia, Tremors, Loss appetite, Weight loss or gain, Changes in menstrual periods."
+        "side_effects": "Allergies: Hives, Difficulty breathing, Swelling of Face, Lips, Tongue or Throat, Sudden pain, Trouble moving, Irregular heartbeat, Chest pain, Wheezing, Fever, Swollen glands, Itching, Joint pain Nausea, Vomiting, Diarrhea, High blood sugar, Dry mouth, Hair loss, Insomnia, Tremors, Loss appetite, Weight loss or gain, Changes in menstrual periods.",
+        "audio": "Levothyroxine.mp3"
     }
 }
