@@ -4,137 +4,163 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Pill Recognition</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to right, #e0c3fc, #8ec5fc);
             min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(
+                -45deg,
+                rgba(147, 51, 234, 0.1),
+                rgba(59, 130, 246, 0.1),
+                rgba(199, 210, 254, 0.2),
+                rgba(243, 232, 255, 0.1)
+            );
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
         }
-        .header {
-            padding: 1.5vw;
-        }
-        .header .nav-link {
-            font-size: 1.5vw;
-            font-weight: 500;
-        }
-        .header .nav-link.active {
-            font-weight: bold;
-        }
-        .header .text-2xl {
-            font-size: 3vw;
-        }
-        .nav-separator {
-            border-left: 2px solid black;
-            height: 24px;
-            margin: 0 16px;
-        }
+
         .main-content {
-            padding: 2vw;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            margin: 1rem auto;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
-        .main-content h1 {
-            font-size: 4vw;
-            font-weight: bold;
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
         }
-        .main-content p {
-            font-size: 1.5vw;
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #9333ea, #3b82f6);
+            transition: width 0.3s ease;
         }
-        .image-container img {
-            border-radius: 0.5rem;
-            max-width: 100%;
-            max-height: 60vh;
-            object-fit: contain;
+        
+        .nav-link:hover::after {
+            width: 100%;
         }
-        .fixed-size-image {
-            width: 400px;
-            height: 400px;
-            object-fit: contain;
-        }
-        .search-icon {
-            font-size: 2vw;
-        }
-        @media (max-width: 768px) {
-            .header .nav-link {
-                font-size: 3vw;
-            }
-            .header .text-2xl {
-                font-size: 5vw;
-            }
-            .main-content h1 {
-                font-size: 5vw;
-            }
-            .main-content p {
-                font-size: 3vw;
-            }
-            .fixed-size-image {
-                width: 100%;
-                height: auto;
-            }
-        }
+
         .page {
             display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
+        
         .page.active {
             display: block;
+            opacity: 1;
         }
-        .pagination {
-            justify-content: center;
-            padding-top: 20px;
-        }
-        .page-item.active .page-link {
-            background-color: #8ec5fc;
-            border-color: #8ec5fc;
+
+        .pagination .page-link {
+            background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%);
             color: white;
+            border: none;
+            transition: all 0.3s ease;
         }
-        .page-item .page-link {
-            color: #8ec5fc;
+
+        .pagination .page-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        .page-item.disabled .page-link {
-            color: grey;
+
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #7928ca 0%, #2563eb 100%);
+            transform: translateY(-2px);
         }
-        .page-link {
-            border: 1px solid #8ec5fc;
-            margin: 0 5px;
+
+        .fixed-size-image {
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fixed-size-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .pagination button.active {
+            background: linear-gradient(135deg, #7928ca 0%, #2563eb 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .pagination {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
         }
     </style>
 </head>
-<body>
-    <header class="header d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-            <div class="text-2xl font-bold">MedG4</div>
-            <div class="nav-separator"></div>
-            <nav class="nav">
-                <a class="nav-link" href="{{ url_for('menu') }}">Menu</a>
-                <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
-                <a class="nav-link" href="{{ url_for('about') }}">About Us</a>
-                <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
-            </nav>
+<body class="min-h-screen flex flex-col">
+    <header class="header flex justify-between items-center p-6 shadow-md">
+        <div class="flex items-center">
+            <div class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text flex items-center">
+                <i class="fas fa-pills mr-2"></i>
+                MedG4
+            </div>
+            <div class="border-l-2 border-purple-300 h-6 mx-4"></div>
         </div>
-        <div class="text-xl">
-            <i class="fas fa-search search-icon"></i>
+        <nav class="nav flex justify-center space-x-8">
+            <a class="nav-link text-xl font-medium" href="{{ url_for('menu') }}">Menu</a>
+            <a class="nav-link text-xl font-bold" href="{{ url_for('home') }}">Home</a>
+            <a class="nav-link text-xl font-medium" href="{{ url_for('about') }}">About&#8209;Us</a>
+            <a class="nav-link text-xl font-medium" href="{{ url_for('contact') }}">Contact</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <div class="text-2xl">
+                <i class="fas fa-search search-icon"></i>
+            </div>
         </div>
     </header>
     
-    <main class="main-content d-flex flex-column flex-md-row align-items-start justify-content-start">
-        <div class="col-md-6">
-            <h2 class="fw-bold">Pill Recognition</h2>
-            <p class="text-muted">
+    <main class="main-content flex flex-col md:flex-row p-8 w-full max-w-6xl mx-auto my-8">
+        <div class="col-md-6 pr-8">
+            <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
+                Pill Recognition Results
+            </h2>
+            <p class="text-gray-600 mb-6">
                 Always consult your doctor or other qualified healthcare professional before making any decisions related to your health.
             </p>
-            <div class="mt-4 d-flex justify-content-center">
-                <img src="{{ url_for('static', filename='predictions/' + pred_filename) }}" alt="Predicted Image" class="img-fluid border fixed-size-image"/>
+            <div class="mt-4">
+                <img src="{{ url_for('static', filename='predictions/' + pred_filename) }}" 
+                     alt="Predicted Image" 
+                     class="fixed-size-image w-full max-w-md mx-auto"/>
             </div>
-            <p class="text-muted mt-2">
-                Call your doctor for medical advice about side effects. You may report side effects to FDA at 1-800-FDA-1088.
-            </p>
         </div>
         
-        <div class="col-md-6 mt-4 mt-md-0">
+        <div class="col-md-6 mt-8 md:mt-0">
             {% if labels[0] == 'No Pill Detected' %}
-                <div class="text-center">
-                    <h2 class="display-4 fw-bold">No Pill Detected</h2>
+                <div class="bg-white/80 backdrop-blur-md rounded-xl p-8 shadow-lg">
+                    <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
+                        No Pill Detected
+                    </h2>
                     <p class="text-muted">
                         Only the listed pills can be recognized:
                     </p>
@@ -147,35 +173,55 @@
                 </div>
             {% else %}
                 {% for info in info_list %}
-                    <div class="page{% if loop.index0 == 0 %} active{% endif %}" id="page{{ loop.index0 }}">
-                        <h2 class="display-4 fw-bold">{{ info.name }}</h2>
-                        <h3 class="display-5 fw-bold">Brief Explanation:</h3>
-                        <p class="text-muted">{{ info.brief }}</p>
-                        <h3 class="display-5 fw-bold">Uses:</h3>
-                        <p class="text-muted">{{ info.uses }}</p>
-                        <h3 class="display-5 fw-bold">Side Effects:</h3>
-                        <p class="text-muted">{{ info.side_effects }}</p>
+                    <div class="page{% if loop.index0 == 0 %} active{% endif %} bg-white/80 backdrop-blur-md rounded-xl p-8 shadow-lg" id="page{{ loop.index0 }}">
+                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
+                            {{ info.name }}
+                        </h2>
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-bold mb-2 bg-gradient-to-r from-purple-500 to-blue-500 inline-block px-4 py-1 rounded-lg text-white shadow-sm">
+                                    Brief Explanation
+                                </h3>
+                                <p class="text-gray-700 mt-2 leading-relaxed">{{ info.brief }}</p>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-2 bg-gradient-to-r from-purple-500 to-blue-500 inline-block px-4 py-1 rounded-lg text-white shadow-sm">
+                                    Uses
+                                </h3>
+                                <p class="text-gray-700 mt-2 leading-relaxed">{{ info.uses }}</p>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold mb-2 bg-gradient-to-r from-purple-500 to-blue-500 inline-block px-4 py-1 rounded-lg text-white shadow-sm">
+                                    Side Effects
+                                </h3>
+                                <p class="text-gray-700 mt-2 leading-relaxed">{{ info.side_effects }}</p>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
-                <nav aria-label="Page navigation" class="mt-4">
-                    <ul class="pagination">
-                        <li class="page-item" id="prevBtn">
-                            <a class="page-link" href="#" onclick="changePage(-1)">Previous</a>
-                        </li>
+                <nav aria-label="Page navigation" class="mt-8 flex justify-center">
+                    <div class="inline-flex rounded-md shadow-sm">
+                        <button onclick="changePage(-1)" id="prevBtn" class="px-4 py-2 text-sm font-medium rounded-l-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Previous
+                        </button>
                         {% for i in range(info_list|length) %}
-                        <li class="page-item{% if i == 0 %} active{% endif %}" id="page-btn-{{ i }}">
-                            <a class="page-link" href="#" onclick="goToPage({{ i }})">{{ i + 1 }}</a>
-                        </li>
+                        <button onclick="goToPage({{ i }})" id="page-btn-{{ i }}" class="px-4 py-2 text-sm font-medium {% if not loop.last %}border-r{% endif %} bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:opacity-90 transition-all duration-200 {% if i == 0 %}active{% endif %}">
+                            {{ i + 1 }}
+                        </button>
                         {% endfor %}
-                        <li class="page-item" id="nextBtn">
-                            <a class="page-link" href="#" onclick="changePage(1)">Next</a>
-                        </li>
-                    </ul>
+                        <button onclick="changePage(1)" id="nextBtn" class="px-4 py-2 text-sm font-medium rounded-r-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Next
+                        </button>
+                    </div>
                 </nav>
             {% endif %}
         </div>
     </main>
-    
+
+    <footer class="bg-gradient-to-r from-purple-800 to-blue-800 text-white text-center py-4 mt-auto shadow-inner">
+        <p class="text-sm">© 2023 MedG4. All rights reserved.</p>
+    </footer>
+
     <script>
         let currentPage = 0;
         const totalPages = {{ info_list|length }};
