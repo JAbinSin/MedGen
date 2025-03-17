@@ -165,7 +165,15 @@ def result():
     file_url = url_for('static', filename='predictions/' + pred_filename) if pred_filename else ''
     info_list = [medicine_info.get(label, {'name': label}) for label in labels]
 
-    return render_template('result.html', file_url=file_url, labels=labels, info_list=info_list, pred_filename=pred_filename)
+    # Sort medicine_info alphabetically by name
+    sorted_medicine_info = dict(sorted(medicine_info.items(), key=lambda x: x[1]['name']))
+
+    return render_template('result.html', 
+                         file_url=file_url, 
+                         labels=labels, 
+                         info_list=info_list, 
+                         pred_filename=pred_filename,
+                         medicine_info=sorted_medicine_info)
 
 @app.route('/home')
 def home():

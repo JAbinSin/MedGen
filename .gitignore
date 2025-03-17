@@ -1,3 +1,4 @@
 __pycache__/
 static/predictions/*
 static/uploads/*
+runs/*

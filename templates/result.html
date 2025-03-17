@@ -207,6 +207,180 @@
             height: 76px;
             z-index: 1000;
         }
+
+        .play-button {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .play-button.playing {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Enhanced hover effects */
+        .fixed-size-image {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+            position: relative;
+        }
+        
+        .fixed-size-image:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(31, 38, 135, 0.25);
+        }
+
+        .fixed-size-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem;
+            background: linear-gradient(
+                135deg,
+                rgba(147, 51, 234, 0.1),
+                rgba(59, 130, 246, 0.1)
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .fixed-size-image:hover::after {
+            opacity: 1;
+        }
+
+        /* Improved card animations */
+        .page {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .page.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Enhanced buttons */
+        .pagination button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pagination button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .pagination button:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
+        /* Floating animation for cards */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .bg-white\/80 {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Loading animation */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid transparent;
+            border-top-color: #9333ea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced mobile responsiveness */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-top: 90px;
+                padding: 1rem;
+            }
+
+            .col-md-6 {
+                padding: 1rem;
+            }
+
+            .fixed-size-image {
+                max-height: 300px;
+                object-fit: contain;
+            }
+
+            .pagination button {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Enhanced button states */
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: rgba(107, 114, 128, 0.5) !important;
+        }
+        
+        .pagination button:not(.btn-disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -250,22 +424,42 @@
                     <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
                         No Pill Detected
                     </h2>
-                    <p class="text-muted">
-                        Only the listed pills can be recognized:
+                    <p class="text-gray-700 mb-4">
+                        The image analysis did not detect any recognizable pills. Please ensure:
                     </p>
-                    <p class="text-muted">
-                        &bull; Antihistamine<br>
-                        &bull; Ibuprofen<br>
-                        &bull; Indigestion Treatment<br>
-                        &bull; Paracetamol
-                    </p>
+                    <ul class="list-disc list-inside mb-6 text-gray-700">
+                        <li>The pill is clearly visible in the image</li>
+                        <li>There is good lighting</li>
+                        <li>The image is in focus</li>
+                    </ul>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2 bg-gradient-to-r from-purple-500 to-blue-500 inline-block px-4 py-1 rounded-lg text-white shadow-sm">
+                            Supported Medicines
+                        </h3>
+                        <p class="text-gray-700 mt-2 mb-3">
+                            Currently, we can recognize these medications:
+                        </p>
+                        <ul class="list-inside space-y-1 text-gray-700">
+                            {% for info in medicine_info.values()|sort(attribute='name') %}
+                                <li class="flex items-center">
+                                    <i class="fas fa-pills text-purple-500 mr-2"></i>
+                                    {{ info.name }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             {% else %}
                 {% for info in info_list %}
                     <div class="page{% if loop.index0 == 0 %} active{% endif %} bg-white/80 backdrop-blur-md rounded-xl p-8 shadow-lg" id="page{{ loop.index0 }}">
-                        <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text mb-4">
-                            {{ info.name }}
-                        </h2>
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text">
+                                {{ info.name }}
+                            </h2>
+                            <button onclick="playAudio('{{ info.name }}', '{{ info.audio }}')" class="play-button" id="playButton-{{ info.name }}">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
                         <div class="space-y-6">
                             <div>
                                 <h3 class="text-lg font-bold mb-2 bg-gradient-to-r from-purple-500 to-blue-500 inline-block px-4 py-1 rounded-lg text-white shadow-sm">
@@ -312,49 +506,102 @@
         <p class="text-xs text-gray-300">Medicine information sourced from the <a href="https://www.nih.gov/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">National Institutes of Health</a></p>
     </footer>
 
+    <!-- Add loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
     <script>
         let currentPage = 0;
         const totalPages = {{ info_list|length }};
 
-        window.onload = function() {
-            document.getElementById(`page${currentPage}`).classList.add('active');
+        function updateButtonStates() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageButtons = document.querySelectorAll('[id^="page-btn-"]');
+
+            // Clear active states
+            pageButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('btn-disabled');
+            });
+
+            // Update current page button
             document.getElementById(`page-btn-${currentPage}`).classList.add('active');
-            updateButtons();
-        };
+
+            // Handle prev/next buttons
+            if (totalPages <= 1) {
+                // Disable both if only one page
+                prevBtn.classList.add('btn-disabled');
+                nextBtn.classList.add('btn-disabled');
+            } else {
+                // Previous button
+                if (currentPage === 0) {
+                    prevBtn.classList.add('btn-disabled');
+                } else {
+                    prevBtn.classList.remove('btn-disabled');
+                }
+                
+                // Next button
+                if (currentPage === totalPages - 1) {
+                    nextBtn.classList.add('btn-disabled');
+                } else {
+                    nextBtn.classList.remove('btn-disabled');
+                }
+            }
+        }
 
         function changePage(step) {
-            if ((currentPage + step) >= 0 && (currentPage + step) < totalPages) {
-                document.getElementById(`page${currentPage}`).classList.remove('active');
-                document.getElementById(`page-btn-${currentPage}`).classList.remove('active');
-                currentPage += step;
-                document.getElementById(`page${currentPage}`).classList.add('active');
-                document.getElementById(`page-btn-${currentPage}`).classList.add('active');
-                updateButtons();
+            const newPage = currentPage + step;
+            if (newPage >= 0 && newPage < totalPages) {
+                showLoading();
+                setTimeout(() => {
+                    // Hide current page
+                    document.getElementById(`page${currentPage}`).classList.remove('active');
+                    
+                    // Update current page
+                    currentPage = newPage;
+                    
+                    // Show new page
+                    document.getElementById(`page${currentPage}`).classList.add('active');
+                    
+                    // Update button states
+                    updateButtonStates();
+                    
+                    // Scroll and hide loading
+                    scrollToTop();
+                    hideLoading();
+                }, 300);
             }
         }
 
         function goToPage(page) {
-            if (page >= 0 && page < totalPages) {
-                document.getElementById(`page${currentPage}`).classList.remove('active');
-                document.getElementById(`page-btn-${currentPage}`).classList.remove('active');
-                currentPage = page;
-                document.getElementById(`page${currentPage}`).classList.add('active');
-                document.getElementById(`page${currentPage}`).classList.add('active');
-                document.getElementById(`page-btn-${currentPage}`).classList.add('active');
-                updateButtons();
+            if (page >= 0 && page < totalPages && page !== currentPage) {
+                showLoading();
+                setTimeout(() => {
+                    // Hide current page
+                    document.getElementById(`page${currentPage}`).classList.remove('active');
+                    
+                    // Update current page
+                    currentPage = page;
+                    
+                    // Show new page
+                    document.getElementById(`page${currentPage}`).classList.add('active');
+                    
+                    // Update button states
+                    updateButtonStates();
+                    
+                    // Scroll and hide loading
+                    scrollToTop();
+                    hideLoading();
+                }, 300);
             }
         }
 
-        function updateButtons() {
-            document.getElementById('prevBtn').classList.toggle('disabled', currentPage === 0);
-            document.getElementById('nextBtn').classList.toggle('disabled', currentPage === totalPages - 1);
-
-            // If there's only one page, disable both buttons
-            if (totalPages <= 1) {
-                document.getElementById('prevBtn').classList.add('disabled');
-                document.getElementById('nextBtn').classList.add('disabled');
-            }
-        }
+        window.onload = function() {
+            document.getElementById(`page${currentPage}`).classList.add('active');
+            updateButtonStates();
+        };
 
         document.getElementById('menuToggle').addEventListener('click', function() {
             document.querySelector('.nav').classList.toggle('show');
@@ -370,6 +617,85 @@
                 document.querySelector('#menuToggle').classList.add('fa-bars');
                 document.querySelector('#menuToggle').classList.remove('fa-times');
             }
+        });
+
+        let currentAudio = null;
+
+        function playAudio(medicineName, audioFile) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                document.querySelectorAll('.play-button').forEach(btn => {
+                    btn.classList.remove('playing');
+                    btn.querySelector('i').className = 'fas fa-volume-up';
+                });
+            }
+
+            const button = document.getElementById(`playButton-${medicineName}`);
+            const audioUrl = `{{ url_for('static', filename='audio/') }}${audioFile}`;
+            
+            const audio = new Audio(audioUrl);
+            currentAudio = audio;
+
+            audio.onplay = () => {
+                button.classList.add('playing');
+                button.querySelector('i').className = 'fas fa-pause';
+            };
+
+            audio.onpause = () => {
+                button.classList.remove('playing');
+                button.querySelector('i').className = 'fas fa-volume-up';
+            };
+
+            audio.onended = () => {
+                button.classList.remove('playing');
+                button.querySelector('i').className = 'fas fa-volume-up';
+                currentAudio = null;
+            };
+
+            audio.play().catch(error => {
+                console.error('Error playing audio:', error);
+                button.classList.remove('playing');
+            });
+        }
+
+        function closeModal(modalId) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+                document.querySelectorAll('.play-button').forEach(btn => {
+                    btn.classList.remove('playing');
+                    btn.querySelector('i').className = 'fas fa-volume-up';
+                });
+            }
+            // ...rest of existing closeModal code...
+        }
+
+        // Add loading state management
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('active');
+        }
+
+        // Add scroll animation
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Add to page navigation functions
+        ['changePage', 'goToPage'].forEach(fn => {
+            const original = window[fn];
+            window[fn] = function(...args) {
+                original.apply(this, args);
+                scrollToTop();
+            };
         });
     </script>
     
